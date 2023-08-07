@@ -1,8 +1,9 @@
 package workflow.producer.domain;
 
-import lombok.*;
-import workflow.producer.dto.UserRegisterDto;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @NoArgsConstructor

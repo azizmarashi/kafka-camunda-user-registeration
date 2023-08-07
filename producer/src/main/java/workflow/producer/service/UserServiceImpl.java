@@ -9,7 +9,6 @@ import workflow.producer.dto.EventDto;
 import workflow.producer.dto.PersonDto;
 import workflow.producer.dto.UserRegisterDto;
 import workflow.producer.repository.UserRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,33 +25,32 @@ public class UserServiceImpl implements UserService {
     private String TOPIC;
 
     @Override
-    public String register(UserRegisterDto userRegisterDto) throws Exception {
+    public String register(UserRegisterDto userRegisterDto) {
 
-        if (userRepository.countByUsername(userRegisterDto.getUsername()) > 0) {
-            throw new RuntimeException("نام کاربری تکراری است");
-        }
-        Person person = Person.builder()
-                .username(userRegisterDto.getUsername()).password(userRegisterDto.getPassword()).firstName(userRegisterDto.getFirstName())
-                .lastName(userRegisterDto.getLastName()).phone(userRegisterDto.getPhone())
-                .build();
-        userRepository.save(person);
+        if (userRepository.countByUsername(userRegisterDto.getUsername()) > 0)
+            throw new RuntimeException("The username is duplicated");
 
+        Person person = new Person();
+        person.setUsername(userRegisterDto.getUsername());
+        person.setFirstName(userRegisterDto.getFirstName());
+        person.setLastName(userRegisterDto.getLastName());
+        person.setPassword(userRegisterDto.getPassword());
+        person.setPhone(userRegisterDto.getPhone());
 
-
-        var eventDto = EventDto.builder()
-                .username(userRegisterDto.getUsername())
-                .password(userRegisterDto.getPassword())
-                .firstName(userRegisterDto.getFirstName())
-                .lastName(userRegisterDto.getLastName())
-                .phone(userRegisterDto.getPhone())
-                .serviceName("producer-service")
-                .publisher("UserServiceImpl") //class name
-                .build();
-
+        EventDto eventDto = new EventDto();
+        eventDto.setUsername(userRegisterDto.getUsername());
+        eventDto.setPassword(userRegisterDto.getPassword());
+        eventDto.setFirstName(userRegisterDto.getFirstName());
+        eventDto.setLastName(userRegisterDto.getLastName());
+        eventDto.setPhone(userRegisterDto.getPhone());
+        eventDto.setServiceName("producer-service");
+        eventDto.setPublisher("UserServiceImpl");
 
         try {
             kafkaTemplate.send(TOPIC, eventDto);
-            return "کاربر با موفقیت ثبت شد";
+            userRepository.save(person);
+            return "User registered successfully";
+
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -61,12 +59,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<PersonDto> getAll() {
-        var list = userRepository.findAll();
-        List<PersonDto> personDto = new ArrayList<>();
-        for (Person person : list) {
-            personDto.add(PersonDto.builder().username(person.getUsername()).password(person.getPassword()).firstName(person.getFirstName())
-                    .lastName(person.getLastName()).phone(person.getPhone()).build());
+
+        List<Person> persons = userRepository.findAll();
+        List<PersonDto> personDtos = new ArrayList<>();
+
+        for (Person person : persons) {
+            personDtos.add(PersonDto.builder()
+                    .username(person.getUsername())
+                    .password(person.getPassword())
+                    .firstName(person.getFirstName())
+                    .lastName(person.getLastName())
+                    .phone(person.getPhone())
+                    .build());
         }
-        return personDto;
+
+        return personDtos;
     }
 }

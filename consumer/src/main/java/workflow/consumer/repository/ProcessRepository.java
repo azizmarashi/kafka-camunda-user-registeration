@@ -1,11 +1,9 @@
 package workflow.consumer.repository;
 
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import workflow.consumer.entity.ProcessActivity;
-
 import java.util.List;
 
 public interface ProcessRepository extends JpaRepository<ProcessActivity,Long> {

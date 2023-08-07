@@ -1,6 +1,5 @@
 package workflow.consumer.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.persistence.Column;
 import java.io.Serial;
 import java.io.Serializable;
@@ -32,7 +30,6 @@ public class Event implements Serializable {
 
     private String publisher;
 
-
     @Column(unique = true, nullable = false, length = 50, columnDefinition = "VARCHAR(50)")
     private String username;
 
@@ -48,8 +45,6 @@ public class Event implements Serializable {
     @Column(unique = true, nullable = false)
     private long phone;
 
-
     private LocalDateTime timestamp;
-
 
 }

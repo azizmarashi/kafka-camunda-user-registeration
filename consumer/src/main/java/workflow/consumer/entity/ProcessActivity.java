@@ -1,7 +1,6 @@
 package workflow.consumer.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 @Data

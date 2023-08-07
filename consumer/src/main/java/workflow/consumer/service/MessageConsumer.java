@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import workflow.consumer.dto.EventDto;
 import workflow.consumer.entity.Event;
 import workflow.consumer.repository.EventRepository;
-
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -27,6 +26,9 @@ public class MessageConsumer {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private IdentityService identityService;
 
     @KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "test_user_group2")
     public void consume(ConsumerRecord<String, String> event) throws JsonProcessingException {
@@ -43,11 +45,9 @@ public class MessageConsumer {
                 .timestamp(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
 
-
         eventRepository.insert(eventEntity);
         eventService.addNewEmployee();
 
-        IdentityService identityService = ProcessEngines.getDefaultProcessEngine().getIdentityService();
         User user = identityService.newUser(eventModel.getUsername());
         user.setId(eventModel.getUsername());
         user.setFirstName(eventModel.getFirstName());

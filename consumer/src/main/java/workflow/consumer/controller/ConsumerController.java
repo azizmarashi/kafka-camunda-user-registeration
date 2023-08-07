@@ -11,7 +11,6 @@ import workflow.consumer.entity.Event;
 import workflow.consumer.entity.ProcessActivity;
 import workflow.consumer.service.EventService;
 import workflow.consumer.service.HistoryProviderService;
-
 import java.util.List;
 
 @RestController

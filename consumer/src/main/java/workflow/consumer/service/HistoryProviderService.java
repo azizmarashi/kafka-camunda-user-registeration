@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class HistoryProviderService {
+
     @Autowired
     private EventRepository eventRepository;
 

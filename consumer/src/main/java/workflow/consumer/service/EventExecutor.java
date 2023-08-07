@@ -8,8 +8,8 @@ public class EventExecutor implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) {
 
-//        System.out.println("Event started => Notify Management");
-        System.out.println("کاربر جدید ثبت شد");
+        System.out.println("New User registered!");
+
     }
 
 }
