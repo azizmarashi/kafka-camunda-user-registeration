@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_04nrpz8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.1">
+  <bpmn:collaboration id="Collaboration_0sxw8n8">
+    <bpmn:participant id="Participant_0yrn30z" name="فرآیند اعلام استخدام نیروی جدید به مدیر" processRef="Process_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_00b5nu3" />
+    <bpmn:startEvent id="StartEvent_1" name="اضافه شدن کارمند جدید" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_0saoe69</bpmn:outgoing>
+      <bpmn:signalEventDefinition signalRef="Signal_0ahw9h6" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_0qj4x7u" name="اطلاع رسانی به مدیریت&#10;&#10;" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_00snn2l</bpmn:incoming>
+      <bpmn:messageEventDefinition camunda:class="workflow.consumer.service.EventExecutor" />
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_1a25115" name="کانفیگ و تحویل سیستم" camunda:assignee="afotoohi">
+      <bpmn:incoming>Flow_0saoe69</bpmn:incoming>
+      <bpmn:outgoing>Flow_00snn2l</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0saoe69" sourceRef="StartEvent_1" targetRef="Activity_1a25115" />
+    <bpmn:sequenceFlow id="Flow_00snn2l" sourceRef="Activity_1a25115" targetRef="EndEvent_0qj4x7u" />
+  </bpmn:process>
+  <bpmn:signal id="Signal_0ahw9h6" name="added_new_employee" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0sxw8n8">
+      <bpmndi:BPMNShape id="Participant_0yrn30z_di" bpmnElement="Participant_0yrn30z" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="533" height="164" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1gv08zf_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="260" y="140" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="238" y="183" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1fbdwgc_di" bpmnElement="EndEvent_0qj4x7u">
+        <dc:Bounds x="615" y="140" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="591" y="183" width="88" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0i0vvyj_di" bpmnElement="Activity_1a25115">
+        <dc:Bounds x="400" y="118" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0saoe69_di" bpmnElement="Flow_0saoe69">
+        <di:waypoint x="296" y="158" />
+        <di:waypoint x="400" y="158" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00snn2l_di" bpmnElement="Flow_00snn2l">
+        <di:waypoint x="500" y="158" />
+        <di:waypoint x="615" y="158" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
